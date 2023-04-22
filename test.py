@@ -18,14 +18,21 @@ def factorial(number):
 # else:
 #     print('No')
 
+
 import time
 
+
+def time_for_execution(action):
+    start = time.time()
+    action
+    end = time.time()
+    total_time = end - start
+    print(total_time)
+
+
 a = int(input('Enter num 1\n'))
-# b = int(input('Enter num 2\n'))
 
-start = time.time()
 factorial(a)
-end = time.time()
-total_time = end - start
-print(total_time)
+time_for_execution(factorial(a))
 
+# print(total_time)

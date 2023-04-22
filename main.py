@@ -1,4 +1,24 @@
 import time
+import psycopg2
+
+connection = psycopg2.connect(
+    host='localhost',
+    database='calculator_db',
+    user='postgres',
+    password='1123QwER'
+)
+
+cursor_object = connection.cursor()
+
+cursor_object.execute(
+    """CREATE TABLE IF NOT EXISTS calculator_statistics (
+    id SERIAL PRIMARY KEY,
+    action_type VARCHAR(10),
+    results FLOAT,
+    execution_time FLOAT
+    )"""
+)
+connection.commit()
 
 
 def basic_operators(first_number, second_number, action):
