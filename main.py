@@ -1,3 +1,6 @@
+import time
+
+
 def basic_operators(first_number, second_number, action):
     if action == "*":
         print(first_number * second_number)
@@ -34,14 +37,20 @@ while True:
     elif operator in ['+', '-', '*', '%']:
         number_1 = float(input("Please enter the first number:\n"))
         number_2 = float(input("Please enter the second number:\n"))
+        start = time.time()
         basic_operators(number_1, number_2, operator)
+        end = time.time()
+        total_time = end - start
 
     elif operator == '/':
         number_1 = float(input("Please enter the first number:\n"))
         number_2 = float(input("Please enter the second number, other than ZERO:\n"))
         try:
             if number_1 != 0 and number_2 != 0:
+                start = time.time()
                 division(number_1, number_2, operator)
+                end = time.time()
+                total_time = end - start
         except ZeroDivisionError:
             print('Zero division not possible')
 
@@ -49,7 +58,10 @@ while True:
         try:
             the_number = int(input("Please enter just ONE INTEGER number:\n"))
             if isinstance(the_number, int):
+                start = time.time()
                 factorial(the_number)
+                end = time.time()
+                total_time = end - start
         except ValueError:
             print("The entered number should be an integer !!!\n")
 
@@ -58,7 +70,10 @@ while True:
             number = int(input("Please enter an integer number:\n"))
             power = int(input("Please enter the power - integer number:\n"))
             if isinstance(number, int) and isinstance(power, int):
+                start = time.time()
                 power_of_number(number, power)
+                end = time.time()
+                total_time = end - start
         except ValueError:
             print("Please enter only integers numbers for the power !!!\n")
     else:
