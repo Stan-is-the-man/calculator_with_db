@@ -22,29 +22,50 @@ connection.commit()
 
 
 def basic_operators(first_number, second_number, action):
+    global result, total_time
+    start = time.time()
     if action == "*":
-        print(first_number * second_number)
+        result = first_number * second_number
     elif action == "+":
-        print(first_number + second_number)
+        result = first_number + second_number
     elif action == "-":
-        print(first_number - second_number)
+        result = first_number - second_number
     elif action == "%":
-        print(first_number % second_number)
+        result = first_number % second_number
+    elif action == '^':
+        result = first_number ** second_number
+    elif action == '/':
+        result = first_number / second_number
+
+    end = time.time()
+    total_time = end - start
+    print(result)
+
+    cursor_object.execute("""
+    INSERT INTO calculator_statistics(action_type, results,execution_time) 
+    VALUES(%s, %s, %s)
+        """, (action, result, total_time))
+    connection.commit()
 
 
 def factorial(number):
+    action = "!"
+    start = time.time()
+
     result = 1
     for num in range(1, number + 1):
         result *= num
+
+    end = time.time()
+    total_time = (end - start) * 100
+
+    cursor_object.execute("""
+        INSERT INTO calculator_statistics(action_type, results,execution_time) 
+        VALUES(%s, %s, %s)
+            """, (action, result, total_time))
+
+    connection.commit()
     print(result)
-
-
-def power_of_number(number, power):
-    print(number ** power)
-
-
-def division(num1, num2, action):
-    print(num1 / num2)
 
 
 while True:
@@ -57,10 +78,7 @@ while True:
     elif operator in ['+', '-', '*', '%']:
         number_1 = float(input("Please enter the first number:\n"))
         number_2 = float(input("Please enter the second number:\n"))
-        start = time.time()
         basic_operators(number_1, number_2, operator)
-        end = time.time()
-        total_time = end - start
 
     elif operator == '/':
         number_1 = float(input("Please enter the first number:\n"))
@@ -68,7 +86,7 @@ while True:
         try:
             if number_1 != 0 and number_2 != 0:
                 start = time.time()
-                division(number_1, number_2, operator)
+                basic_operators(number_1, number_2, operator)
                 end = time.time()
                 total_time = end - start
         except ZeroDivisionError:
@@ -78,10 +96,7 @@ while True:
         try:
             the_number = int(input("Please enter just ONE INTEGER number:\n"))
             if isinstance(the_number, int):
-                start = time.time()
                 factorial(the_number)
-                end = time.time()
-                total_time = end - start
         except ValueError:
             print("The entered number should be an integer !!!\n")
 
@@ -91,7 +106,7 @@ while True:
             power = int(input("Please enter the power - integer number:\n"))
             if isinstance(number, int) and isinstance(power, int):
                 start = time.time()
-                power_of_number(number, power)
+                basic_operators(number, power, operator)
                 end = time.time()
                 total_time = end - start
         except ValueError:
