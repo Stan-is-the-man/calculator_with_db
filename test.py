@@ -1,7 +1,7 @@
 import time
 
 
-def calculate_execution_time(func):
+def calculate_execution_time_1(func):
     start_time = time.time()
     func()
     end_time = time.time()
@@ -9,22 +9,34 @@ def calculate_execution_time(func):
     print(f"Execution time: {execution_time} seconds")
 
 
+def calculate_execution_time(func, *args):
+    start_time = time.time()
+    func(*args)
+    end_time = time.time()
+    execution_time = end_time - start_time
+    print(f"Execution time: {execution_time} seconds")
+
+
+def my_function(a, b):
+    return a ^ b
+
+
+# calculate_execution_time(my_function, 100, 29)
+
 def factorial(number):
     result = 1
 
     for num in range(1, number + 1):
         result *= num
+
     return result
 
 
-def add(a, b):
-    return a + b
+calculate_execution_time_1(factorial(5))
 
-
-
-
+# calculate_execution_time(factorial(1))
 # calculate_execution_time(add(4, 6))
-calculate_execution_time(factorial(123))
+# calculate_execution_time(factorial(123))
 
 
 # print(factorial(5))

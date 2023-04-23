@@ -39,6 +39,7 @@ def basic_operators(first_number, second_number, action):
 
     end = time.time()
     total_time = end - start
+
     print(result)
 
     cursor_object.execute("""
@@ -50,19 +51,17 @@ def basic_operators(first_number, second_number, action):
 
 def factorial(number):
     action = "!"
-    start = time.time()
-
-    result = 1
+    the_start = time.time()
+    the_result = 1
     for num in range(1, number + 1):
-        result *= num
-
-    end = time.time()
-    total_time = (end - start) * 100
+        the_result *= num
+    the_end = time.time()
+    the_total_time = (the_end - the_start) * 100
 
     cursor_object.execute("""
         INSERT INTO calculator_statistics(action_type, results,execution_time) 
         VALUES(%s, %s, %s)
-            """, (action, result, total_time))
+            """, (action, result, the_total_time))
 
     connection.commit()
     print(result)
@@ -71,15 +70,12 @@ def factorial(number):
 while True:
     operator = input("\nPlease enter one of the following actions to perform:\n"
                      "( +, -, *, /, ^, %, ! ) or type 'exit' to quit. \n")
-
     if operator == 'exit':
         break
-
     elif operator in ['+', '-', '*', '%']:
         number_1 = float(input("Please enter the first number:\n"))
         number_2 = float(input("Please enter the second number:\n"))
         basic_operators(number_1, number_2, operator)
-
     elif operator == '/':
         number_1 = float(input("Please enter the first number:\n"))
         number_2 = float(input("Please enter the second number, other than ZERO:\n"))
